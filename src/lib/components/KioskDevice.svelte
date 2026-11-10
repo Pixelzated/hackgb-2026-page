@@ -1,6 +1,6 @@
 <script>
   // A drawing of the kiosk around a live demo of its screen (/kiosk in an iframe): two LEDs that
-  // run the real kiosk's patterns, and the big button. Press it, or tap the screen; hold to sell.
+  // run the real kiosk's patterns, and the big button. Press it, or click the screen; hold to sell.
   //
   // Until someone tries it, a strip of tape on the bezel says "press me!" and the button pings.
   import { onMount } from 'svelte';
@@ -13,7 +13,7 @@
   let d5 = $state(0);
   let d16 = $state(0);
   let shown = $state(false); // scrolled into view: the tape drops on and the ping starts
-  let used = $state(false); // pressed, or the screen tapped: the ping stops
+  let used = $state(false); // pressed, or the screen clicked: the ping stops
 
   const send = (msg) => frame?.contentWindow?.postMessage({ rehomeKiosk: true, ...msg }, location.origin);
 
@@ -43,7 +43,7 @@
     const onMessage = (e) => {
       if (e.origin !== location.origin || e.source !== frame?.contentWindow || !e.data?.rehomeKiosk) return;
       if (e.data.type === 'leds') leds.set(e.data.pattern, e.data.then);
-      if (e.data.type === 'leds' && e.data.pattern === 'tick') used = true; // a countdown: the screen was tapped
+      if (e.data.type === 'leds' && e.data.pattern === 'tick') used = true; // a countdown: the screen was clicked
     };
     addEventListener('message', onMessage);
     // Pause the video and its ASCII rendering while the kiosk is off screen

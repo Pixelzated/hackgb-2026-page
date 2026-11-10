@@ -259,6 +259,11 @@
     pendingShort = setTimeout(() => f === flow && short(), 450);
   }
 
+  // In the site's demo, a finger on the screen is usually scrolling the page, so there only a
+  // mouse click on the screen counts as a press; touch goes through the drawn button.
+  const screenPress = (e) => (hw.embedded && e.pointerType !== 'mouse') || press();
+  const screenRelease = (e) => (hw.embedded && e.pointerType !== 'mouse') || release();
+
   function startHold(short, long) {
     hold = { short, long };
     const start = performance.now();
@@ -355,8 +360,8 @@
 
 <svelte:window {onkeydown} {onkeyup} />
 
-<main class="fixed inset-0 overflow-hidden bg-night text-night-ink {hw.embedded ? 'cursor-pointer' : ''}" onpointerdown={press} onpointerup={release}
-  onpointercancel={release}>
+<main class="fixed inset-0 overflow-hidden bg-night text-night-ink {hw.embedded ? 'cursor-pointer' : ''}" onpointerdown={screenPress} onpointerup={screenRelease}
+  onpointercancel={screenRelease}>
   <AsciiMirror opacity={asciiOpacity} />
   <div class="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_50%_40%,transparent_45%,rgb(20_16_23/0.55)_100%)]"
     aria-hidden="true"></div>

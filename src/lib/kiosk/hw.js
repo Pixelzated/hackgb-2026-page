@@ -1,7 +1,8 @@
 // The kiosk's hardware, faked for the web demo. The real version (feature/kiosk, ui/src/lib/hw.js)
 // talks to server.py on the Pi; this one has the same exports:
 //   camera  -> a looping stock video (VIDEO_SRC)
-//   button  -> messages from the page around the iframe (its big round button), or taps and the space bar
+//   button  -> messages from the page around the iframe (its big round button), or clicks and the
+//              space bar (touches on the screen don't count: they're usually someone scrolling)
 //   LEDs    -> pattern names sent up to that page, which draws the two LEDs
 export const VIDEO_SRC = '/media/sweater.mp4';
 
