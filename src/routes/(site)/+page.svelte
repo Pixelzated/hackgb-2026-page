@@ -151,7 +151,7 @@
 
 <!-- The kiosk: its real screen, running on stock footage instead of a webcam -->
 <section id="kiosk" class="mx-auto max-w-6xl scroll-mt-6 px-4 pb-28 sm:px-6">
-  <div class="grid items-center gap-14 md:grid-cols-[1fr_auto] md:gap-20">
+  <div class="grid items-center gap-14 lg:grid-cols-[1fr_auto] lg:gap-20">
     <div>
       <p class="flex items-center gap-2 font-mono text-sm text-lamp-ink">
         <span class="grid size-6 place-items-center rounded-md bg-lamp/15"><Cpu class="size-3.5" /></span>
@@ -170,7 +170,15 @@
         This demo watches <a href={FOOTAGE} class="underline underline-offset-4 hover:text-ink">stock footage</a> instead of a webcam.
       </p>
     </div>
-    <KioskDevice />
+    <div class="relative flex flex-col items-center gap-10 sm:flex-row sm:justify-center sm:gap-0">
+      <!-- The real kiosk at the expo, as an instant print beside the drawing (its tilted corner just clears it) -->
+      <figure class="relative w-44 -rotate-3 bg-[#f6efe3] p-2 pb-9 shadow-[0_24px_40px_-24px_rgb(29_21_34/0.6)] sm:z-0 sm:mr-7 sm:translate-y-8 sm:-rotate-6 lg:w-52">
+        <video src="/media/kiosk-expo.mp4" autoplay muted loop playsinline aria-label="The ReHome kiosk on a table at the HackGB expo"
+          class="block aspect-[9/16] w-full bg-night object-cover"></video>
+        <figcaption class="absolute inset-x-0 bottom-2.5 px-2 text-center font-mono text-[0.65rem] whitespace-nowrap text-night/70 sm:text-left">the real one, at the expo</figcaption>
+      </figure>
+      <div class="relative z-10"><KioskDevice /></div>
+    </div>
   </div>
 </section>
 
