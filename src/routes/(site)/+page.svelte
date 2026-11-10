@@ -39,6 +39,16 @@
 
   let home = $state();
   let hovered = $state(-1);
+
+  // Below md, How it works is a row you swipe through one drawing at a time
+  let steps = $state();
+  let step = $state(0);
+  function onStepsScroll() {
+    const pitch = steps.children[1].offsetLeft - steps.children[0].offsetLeft;
+    const end = steps.scrollLeft >= steps.scrollWidth - steps.clientWidth - 2;
+    step = end ? STEPS.length - 1 : Math.round(steps.scrollLeft / pitch);
+  }
+  const showStep = (i) => steps.children[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 </script>
 
 <!-- Hero: a night window with the ASCII home, and the way in -->
@@ -132,19 +142,32 @@
     Watch them work <ArrowRight class="size-4" />
   </a>
 
-  <div class="mt-16 grid gap-y-14 md:grid-cols-3">
-    {#each STEPS as step, i}
+  <!-- Phones and small tablets swipe through the three (the next one peeks in); md and up shows them side by side -->
+  <div
+    bind:this={steps}
+    onscroll={onStepsScroll}
+    class="-mx-4 mt-12 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto overscroll-x-contain px-4 py-2 [scrollbar-width:none] sm:-mx-6 sm:scroll-px-6 sm:px-6 md:mx-0 md:mt-16 md:grid md:grid-cols-3 md:gap-0 md:overflow-visible md:p-0"
+  >
+    {#each STEPS as s, i}
       <article
-        class="flex flex-col border-l border-line pr-2 pl-5"
+        class="flex w-[82%] max-w-sm shrink-0 snap-start flex-col border-l border-line pr-2 pl-5 md:w-auto md:max-w-none"
         onpointerenter={() => (hovered = i)}
         onpointerleave={() => (hovered = -1)}
       >
         <span class="font-mono text-xs text-ink-soft">{i + 1}</span>
-        <div class="mx-auto aspect-square w-full max-w-[22rem] max-sm:px-9"><!-- room for labels that slide outward -->
-          <WireFigure draw={step.draw} active={hovered === i} />
+        <div class="mx-auto aspect-square w-full max-w-[22rem] max-md:px-5"><!-- room for labels that slide outward -->
+          <WireFigure draw={s.draw} active={hovered === i} />
         </div>
-        <h3 class="font-display text-xl font-semibold tracking-tight">{step.title}</h3>
+        <h3 class="font-display text-xl font-semibold tracking-tight">{s.title}</h3>
       </article>
+    {/each}
+  </div>
+  <div class="mt-5 flex justify-center md:hidden">
+    {#each STEPS as s, i}
+      <button type="button" class="grid h-8 place-items-center px-1.5" aria-label="Step {i + 1}: {s.title}"
+        aria-current={step === i ? 'step' : undefined} onclick={() => showStep(i)}>
+        <span class="block h-1.5 rounded-full transition-all duration-500 {step === i ? 'w-6 bg-lamp' : 'w-1.5 bg-ink/20'}"></span>
+      </button>
     {/each}
   </div>
 </section>
@@ -182,8 +205,8 @@
   </div>
 </section>
 
-<!-- Example inventory, and the agents at work -->
-<section class="mx-auto max-w-6xl px-4 pb-28 sm:px-6">
+<!-- Example inventory, and the agents at work (left off phones, where they made the page long) -->
+<section class="mx-auto max-w-6xl px-4 pb-28 max-sm:hidden sm:px-6">
   <div class="grid gap-14 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
     <div>
       <div class="flex flex-wrap items-baseline justify-between gap-3">
