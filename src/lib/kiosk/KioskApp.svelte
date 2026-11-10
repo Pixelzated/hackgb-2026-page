@@ -355,7 +355,7 @@
 
 <svelte:window {onkeydown} {onkeyup} />
 
-<main class="fixed inset-0 overflow-hidden bg-night text-night-ink" onpointerdown={press} onpointerup={release}
+<main class="fixed inset-0 overflow-hidden bg-night text-night-ink {hw.embedded ? 'cursor-pointer' : ''}" onpointerdown={press} onpointerup={release}
   onpointercancel={release}>
   <AsciiMirror opacity={asciiOpacity} />
   <div class="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_50%_40%,transparent_45%,rgb(20_16_23/0.55)_100%)]"
