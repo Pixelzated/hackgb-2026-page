@@ -63,7 +63,7 @@
     </div>
     <div class="flex items-center justify-between px-4 py-5">
       <div class="flex items-center gap-3" aria-hidden="true">
-        <span class="size-3 rounded-full" style={led(d5, '244 174 71')}></span>
+        <span class="size-3 rounded-full" style={led(d5, '92 214 120')}></span><!-- D5 was a green LED -->
         <span class="size-3 rounded-full" style={led(d16, '224 92 72')}></span>
       </div>
       <button type="button" aria-label="The kiosk's button: press it, or hold it to sell instead"
@@ -75,5 +75,5 @@
       </button>
     </div>
   </div>
-  <figcaption class="mt-4 text-center font-mono text-xs text-ink-soft">try it: press the button, or hold it to sell</figcaption>
+  <figcaption class="mt-4 text-center font-mono text-xs text-ink-soft">press the button · hold it to sell</figcaption>
 </figure>
